@@ -1,52 +1,52 @@
 ﻿# Voice Changer
 
-[![Latest Release](https://img.shields.io/github/v/release/ZeddiS/zeddihub-teamspeak-voicechanger)](https://github.com/ZeddiS/zeddihub-teamspeak-voicechanger/releases)
+[![Release](https://img.shields.io/github/v/release/ZeddiS/zeddihub-teamspeak-voicechanger)](https://github.com/ZeddiS/zeddihub-teamspeak-voicechanger/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Real-time DSP effects on outgoing microphone audio.
+Real-time DSP voice effects for outgoing TeamSpeak 3 microphone audio.
 
-Helium / Chipmunk / Demon / Deep / Custom pitch (phase-vocoder), Robot (AM modulation), Echo (delay), Distortion (raspy/guttural), Whisper (breathy), Telephone (300-3400 Hz bandpass), Underwater (muffled + reverb), Megaphone (PA-system distortion + bandpass), Volume Boost (sanity test). Each preset has a one-click menu item under Plugins -> Voice Changer.
-
-Part of the [**ZeddiHub TeamSpeak Addons**](https://github.com/ZeddiS/zeddihub-teamspeak-addons) collection.
-
----
+**Standalone plugin** -- not part of the curated [ZeddiHub TeamSpeak Addons](https://github.com/ZeddiS/zeddihub-teamspeak-addons) collection (Voice Changer is experimental and may not work on all setups).
 
 ## Installation
 
-All download files are in **[Releases](https://github.com/ZeddiS/zeddihub-teamspeak-voicechanger/releases/latest)**.
+Latest release: **[v1.2.5](https://github.com/ZeddiS/zeddihub-teamspeak-voicechanger/releases/latest)**
 
-### Option A: Installer (.exe) -- recommended
+**Recommended:** Download oicechanger-v1.2.5-TS3-<your-version>-apiNN.ts3_plugin and double-click. TS3 native install dialog opens.
 
-Download and run **`VoiceChanger-Setup-v1.2.4.exe`**
+**Manual:** Download oicechanger_apiNN_win64.dll and copy to %APPDATA%\TS3Client\plugins\.
 
-The wizard:
-1. Detects your TeamSpeak 3 version and selects the correct API DLL (23 / 24 / 25 / 26)
-2. Detects running TS3 and offers to close it (DLL would otherwise be locked)
-3. Installs the DLL to `%APPDATA%\TS3Client\plugins\` (per-user, no admin needed)
-4. Registers an uninstaller in Add/Remove Programs
+| TS3 client | API |
+|---|---|
+| 3.5.0 | 23 |
+| 3.5.1 - 3.5.5 | 24 |
+| **3.5.6** | 25 |
+| 3.6.x and newer | 26 |
 
-### Option B: Manual (.dll)
+## Voice presets
 
-Download the raw DLL matching your TS3 client version:
+Pitch shifters: Helium, Chipmunk, Deep, Demon, Custom (-12..+12 semitones)
+Effects: Robot (AM), Echo, Distortion, Whisper, Telephone, Underwater, Megaphone
+Diagnostic: Volume Boost (1.5x gain), Bypass (no-op + edited flag), Off
 
-| TS3 client | Plugin API | File |
-|---|---|---|
-| 3.5.0 | 23 | `voicechanger_api23_win64.dll` |
-| 3.5.1 - 3.5.5 | 24 | `voicechanger_api24_win64.dll` |
-| **3.5.6** | **25** | **`voicechanger_api25_win64.dll`** |
-| 3.6.x and newer | 26 | `voicechanger_api26_win64.dll` |
+## Known issue (v1.2.5)
 
-Copy the DLL to `%APPDATA%\TS3Client\plugins\`, then in TS3 go to **Settings -> Plugins -> Reload All -> tick Enabled**.
+On some TS3 client setups, setting edited=1 in the audio callback breaks Voice Activity Detection (VAD) -- talk indicator stops lighting even though mic input is detected.
 
-If TS3 reports 'API version not compatible', you have the wrong file -- try a different API number.
+**Workaround:** Compat Mode is now ON by default (does NOT set edited=1). With Compat Mode ON:
+- Mic and VAD work normally
+- Voice modifications may NOT transmit (TS3 might use original samples)
+
+Use the **Bypass** preset to test if your TS3 setup tolerates the edited flag. If Bypass keeps your mic working with Compat Mode OFF, voice changing should work for you. If it breaks even with Bypass, your setup requires Compat Mode permanently.
+
+**Recommended:** use TS3 in Push-to-Talk mode while Voice Changer is active.
+
+## Theme
+
+Plugin dialogs use TS3 client's native theme (no custom Discord-style overrides).
 
 ## Source code
 
-Source code lives in the [**collection repo**](https://github.com/ZeddiS/zeddihub-teamspeak-addons), folder `VoiceChanger/`. Build instructions and CMake configuration are there.
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md).
+Source lives in [zeddihub-teamspeak-addons](https://github.com/ZeddiS/zeddihub-teamspeak-addons), folder VoiceChanger/.
 
 ## License
 
@@ -56,13 +56,9 @@ MIT -- see [LICENSE](LICENSE).
 
 ## Links
 
-- :house: **ZeddiHub web**: https://zeddihub.eu
-- :wrench: **ZeddiHub Tools**: https://zeddihub.eu/tools/
-- :busts_in_silhouette: **Author**: https://zeddis.xyz
-- :file_folder: **Collection**: [zeddihub-teamspeak-addons](https://github.com/ZeddiS/zeddihub-teamspeak-addons)
-
-**Sister plugins:** [Poke Bot](https://github.com/ZeddiS/zeddihub-teamspeak-pokebot) | [Follow](https://github.com/ZeddiS/zeddihub-teamspeak-follow) | [MoveSpam](https://github.com/ZeddiS/zeddihub-teamspeak-movespam) | [Voice Changer](https://github.com/ZeddiS/zeddihub-teamspeak-voicechanger) | [AutoReconnect](https://github.com/ZeddiS/zeddihub-teamspeak-autoreconnect) | [Greeting Bot](https://github.com/ZeddiS/zeddihub-teamspeak-greetingbot)
-
----
+- **ZeddiHub web**: https://zeddihub.eu
+- **ZeddiHub Tools**: https://zeddihub.eu/tools/
+- **Author**: https://zeddis.xyz
+- **Curated collection**: [zeddihub-teamspeak-addons](https://github.com/ZeddiS/zeddihub-teamspeak-addons) (4 plugins: PokeBot, Follow, MoveSpam, Soundboard)
 
 (C) 2026 [ZeddiHub.eu](https://zeddihub.eu) -- zeddis.xyz
